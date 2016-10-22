@@ -1,0 +1,1 @@
+A small app to calculate my working hours and record them. 
