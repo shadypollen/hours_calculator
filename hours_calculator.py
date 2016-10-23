@@ -46,15 +46,20 @@ def hour_calculator(begin_hours, begin_minutes, fin_hours, fin_minutes):
 	if minutes_total <= 0:
 		minutes_total+=60
 		hours_total-=1
-	print(hours_total, minutes_total)
+	elif minutes_total > 59:
+		minutes_total-=60
+		hours_total+=1
+	print("hours test", hours_total, minutes_total)
 	total_minutes = (hours_total * 60) + minutes_total
 	#calculate breaks
 	if total_minutes > (12*60):
 		total_minutes-=30
 	elif total_minutes <= (12*60) and total_minutes > (8*60):
 		total_minutes-=30
+		print("test1")
 	elif total_minutes <= (8*60) and total_minutes > (6*60):
 		total_minutes-=15
+		print("test2")
 
 	paid_hours = int(total_minutes/60)
 	paid_minutes = total_minutes % 60
@@ -63,22 +68,34 @@ def hour_calculator(begin_hours, begin_minutes, fin_hours, fin_minutes):
 
 def week_organiser():
 	day_hours_counter = []
+	user_input = None
 	while True:
-		user_input = input("Enter anything if you'd like to input a day or 'End' if you'd like to finish: ")
+		user_input = input("Press ENTER to input a day or type 'End' if you'd like to finish:  \n")
 		if user_input.lower() == "end":
 			break
 		else:
 			day_input = day_list()
 			start_hours, start_minutes = start_hours_list()
 			finish_hours, finish_minutes = finish_hours_list()
-			print(day_input, start_hours, start_minutes, finish_hours, finish_minutes)
+			print(day_input, start_hours, start_minutes, finish_hours, finish_minutes) #Delete this later
 			paid_hours, paid_minutes = hour_calculator(start_hours, start_minutes, finish_hours, finish_minutes)
-			print(paid_hours, paid_minutes)
-			day_hours_counter.append((day_input, start_hours, start_minutes, finish_hours, finish_minutes, paid_hours, paid_minutes))
+			paid_total = paid_hours * 60 + paid_minutes
+			day_hours_counter.append((day_input, start_hours, start_minutes, finish_hours, finish_minutes, paid_hours,\
+			paid_minutes, paid_total))
 	week_calculator(day_hours_counter)
 
-def week_calculator(days_hours_list):
-	print(days_hours_list)
+def week_calculator(days_hours_input):
+	week_hours = []
+	days_hours_list = list(days_hours_input)
+	for day in days_hours_list:
+		day_list = list(day)
+		pay_each_day = day_list[-1]
+		week_hours.append(pay_each_day)
+	print(week_hours)
+	print(sum(week_hours))
+	hours_worked = int(sum(week_hours)/60)
+	minutes_worked = sum(week_hours)%60
+	print("Total amount of hours worked this week is: %d hours and %d minutes" % (hours_worked, minutes_worked))
 
 
 
