@@ -1,5 +1,6 @@
 import datetime
 import calendar
+import sqlite3
 
 #Inputs the day of the week
 def day_list():
@@ -14,6 +15,7 @@ def day_list():
 	return day_var
 
 #Inputs the day of the month
+#Work on a better way to calculate the date using last week and today's day
 def day_of_the_year():
 	now = datetime.datetime.now()
 	calendar.prmonth(now.year, now.month)
@@ -94,6 +96,14 @@ def week_calculator(days_hours_input):
 	print("Total amount of hours worked this week is: %d hours and %d minutes" % (hours_worked, minutes_worked))
 	return(hours_worked, minutes_worked, sum(week_hours))
 
+def create_table():
+	c.execute("""CREATE TABLE IF NOT EXISTS work_timetable (day_of_week TEXT, full_date TEXT, start_hours TEXT,\
+	end_hours TEXT, total_hours_minutes TEXT, total_minutes TEXT, estimated_pay TEXT)""")
+
+def values_input():
+	pass
+
+
 #Brings functions together
 def week_organiser():
 	day_hours_counter = []
@@ -104,15 +114,24 @@ def week_organiser():
 			break
 		else:
 			day_input = day_list()
+			#outputs a string of the month's day
 			day_date, month_date, year_date = day_of_the_year()
+			date_string = str("%d-%d-%d" % (day_date, month_date, year_date))
+			#inputs for beginning and end of shift
 			start_hours, start_minutes = start_hours_list()
 			finish_hours, finish_minutes = finish_hours_list()
-			print(day_input, start_hours, start_minutes, finish_hours, finish_minutes) #Delete this later
+			#calculates the amount of hours worked - breaks
 			paid_hours, paid_minutes = hour_calculator(start_hours, start_minutes, finish_hours, finish_minutes)
 			paid_total = paid_hours * 60 + paid_minutes
-			day_hours_counter.append((day_input, day_date, month_date, year_date, start_hours, start_minutes, finish_hours, finish_minutes, paid_hours,\
+			#appends all the values for each day as a tuple in a list
+			day_hours_counter.append((day_input, date_string, start_hours, start_minutes, finish_hours, finish_minutes, paid_hours,\
 			paid_minutes, paid_total))
+	#displays the total hours worked per week
 	hours_worked, minutes_worked, total_minutes = week_calculator(day_hours_counter)
+	#creates the table and writes inputs in it
+	conn = sqlite3.connect("workhours.db")
+	cursor = conn.cursor()
+	create_table()
 
 
 
