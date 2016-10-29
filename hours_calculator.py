@@ -2,6 +2,9 @@ import datetime
 import calendar
 import sqlite3
 
+conn = sqlite3.connect("workhours.db")
+cursor = conn.cursor()
+
 #Inputs the day of the week
 def day_list():
 	while True:
@@ -15,12 +18,18 @@ def day_list():
 	return day_var
 
 #Inputs the day of the month
-#Work on a better way to calculate the date using last week and today's day
+#Work on a better way to calculate the date using last week and today's day, so it 
+#won't cause bugs on weeks that have a start of the next month in them
 def day_of_the_year():
 	now = datetime.datetime.now()
 	calendar.prmonth(now.year, now.month)
 	day_of_the_month = int(input("Enter the day of the month: "))
 	return(day_of_the_month, now.month, now.year)
+
+def which_week(year, month, day):
+	date_that_week = datetime.date(year, month, day)
+	no_of_week = date_that_week.isocalendar()[1]
+	return no_of_week
 
 #Inputs beginning of the shift
 def start_hours_list():
@@ -52,6 +61,10 @@ def finish_hours_list():
 		print("Input incorrect, try again.")
 	return((start_hour_list[0], start_hour_list[1]))
 
+def start_end_hours_string(start_hours, start_minutes, finish_hours, finish_minutes):
+	return_string = "%.2i:%.2i-%.2i:%.2i" % (start_hours, start_minutes, finish_hours, finish_minutes)
+	return return_string
+
 
 #Calculates how many hours you worked and subtracts breaks
 def hour_calculator(begin_hours, begin_minutes, fin_hours, fin_minutes):
@@ -65,7 +78,6 @@ def hour_calculator(begin_hours, begin_minutes, fin_hours, fin_minutes):
 	elif minutes_total > 59:
 		minutes_total-=60
 		hours_total+=1
-	print("hours test", hours_total, minutes_total)
 	total_minutes = (hours_total * 60) + minutes_total
 	#calculate breaks
 	if total_minutes > (12*60):
@@ -80,15 +92,24 @@ def hour_calculator(begin_hours, begin_minutes, fin_hours, fin_minutes):
 
 	return((paid_hours, paid_minutes))
 
+def hour_string_output(paid_hours, paid_minutes):
+	return_string = "%ih:%im" % (paid_hours, paid_minutes)
+	return return_string
+
+def estimate_pay(paid_total):
+	raw_estimate_val = (8.2/60) * paid_total
+	output_string = round(raw_estimate_val, 2)
+	return output_string
+
 #Calculates how many hours you worked in a week
+#NB! Be careful of which value is selected as "pay_each_day"
 def week_calculator(days_hours_input):
 	week_hours = []
 	days_hours_list = list(days_hours_input)
 	for day in days_hours_list:
 		day_list = list(day)
-		pay_each_day = day_list[-1]
+		pay_each_day = day_list[-2]
 		week_hours.append(pay_each_day)
-	print("days_hours_input: ", days_hours_input)
 	print(week_hours)
 	print(sum(week_hours))
 	hours_worked = int(sum(week_hours)/60)
@@ -96,42 +117,61 @@ def week_calculator(days_hours_input):
 	print("Total amount of hours worked this week is: %d hours and %d minutes" % (hours_worked, minutes_worked))
 	return(hours_worked, minutes_worked, sum(week_hours))
 
+
 def create_table():
-	c.execute("""CREATE TABLE IF NOT EXISTS work_timetable (day_of_week TEXT, full_date TEXT, start_hours TEXT,\
-	end_hours TEXT, total_hours_minutes TEXT, total_minutes TEXT, estimated_pay TEXT)""")
+	cursor.execute("""CREATE TABLE IF NOT EXISTS overall_hours 
+		(no_of_week INTEGER, hours_worked_weekly TEXT, week_pay_estimate REAL)""")
+	cursor.execute("""CREATE TABLE IF NOT EXISTS day_hours 
+		(no_of_week INTEGER, what_day TEXT, full_date TEXT, start_fin_hours TEXT, hours_worked_daily TEXT, daily_pay_estimate REAL)""")
 
-def values_input():
-	pass
 
-
+def daily_sql_insert(day_hours_counter):
+	list_of_days = list(day_hours_counter)
+	for day in list_of_days:
+		no_of_week, day_of_week, date, start_fin_hours, paid_hours, estimated_pay = day
+		cursor.execute("""INSERT INTO day_hours 
+			(no_of_week, what_day, full_date, start_fin_hours, hours_worked_daily, daily_pay_estimate) 
+			VALUES(?, ?, ?, ?, ?, ?)""", (no_of_week, day_of_week, date, start_fin_hours, paid_hours, estimated_pay))
+		conn.commit()
+	cursor.close()
+	conn.close()
+		
 #Brings functions together
 def week_organiser():
 	day_hours_counter = []
-	user_input = None
 	while True:
 		user_input = input("Press ENTER to input a day or type 'End' if you'd like to finish:  \n")
 		if user_input.lower() == "end":
 			break
 		else:
+			#outputs the day of the week
 			day_input = day_list()
 			#outputs a string of the month's day
 			day_date, month_date, year_date = day_of_the_year()
 			date_string = str("%d-%d-%d" % (day_date, month_date, year_date))
+			week_number = which_week(year_date, month_date, day_date)
 			#inputs for beginning and end of shift
 			start_hours, start_minutes = start_hours_list()
 			finish_hours, finish_minutes = finish_hours_list()
+			start_fin_hours_return = start_end_hours_string(start_hours, start_minutes, finish_hours, finish_minutes)
 			#calculates the amount of hours worked - breaks
 			paid_hours, paid_minutes = hour_calculator(start_hours, start_minutes, finish_hours, finish_minutes)
+			hours_output_string = hour_string_output(paid_hours, paid_minutes)
 			paid_total = paid_hours * 60 + paid_minutes
+			#estimates the pay
+			estimated_pay = estimate_pay(paid_total)
 			#appends all the values for each day as a tuple in a list
-			day_hours_counter.append((day_input, date_string, start_hours, start_minutes, finish_hours, finish_minutes, paid_hours,\
-			paid_minutes, paid_total))
+			day_hours_counter.append((week_number, day_input, date_string, start_fin_hours_return, hours_output_string, estimated_pay))
 	#displays the total hours worked per week
-	hours_worked, minutes_worked, total_minutes = week_calculator(day_hours_counter)
-	#creates the table and writes inputs in it
-	conn = sqlite3.connect("workhours.db")
-	cursor = conn.cursor()
 	create_table()
+	daily_sql_insert(day_hours_counter)
+	#creates the table and writes inputs in it
+
+
+def sql_values_input():
+	pass
+
+
 
 
 
@@ -141,3 +181,4 @@ def main():
 
 
 main()
+
