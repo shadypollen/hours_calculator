@@ -117,6 +117,7 @@ def week_calculator(days_hours_input):
 	print(output_string)
 
 	paid_total_pw = (8.2/60)* sum_hours
+	paid_total_pw = round(paid_total_pw, 2)
 	print(paid_total_pw)
 	return(output_string, paid_total_pw)
 
