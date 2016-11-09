@@ -116,5 +116,3 @@ class day_container:
 		output_string = round(raw_estimate_val, 2)
 		return output_string
 
-
-test = day_container()
