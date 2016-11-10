@@ -3,7 +3,9 @@ import calendar
 
 now = datetime.datetime.now()
 cal = calendar.Calendar()
-month_list = cal.monthdays2calendar(now.year, now.month)
+this_year = now.year
+this_month = 1 #Change to now.monthdays2calendar when finished testing
+month_list = cal.monthdays2calendar(now.year, this_month)
 
 def day_list():
 	day_dict = {
@@ -46,7 +48,7 @@ def day_of_the_year_working(day_tuple, some_day_input):
 	if current_day_of_week == 0:
 		work_week_index = current_week_index - 1
 		if work_week_index < 0:
-			last_month = cal.monthdays2calendar(now.year, now.month-1)
+			last_month = cal.monthdays2calendar(now.year, this_month-1) #This is the problem with the wrong week when testing january input
 			last_week_last_month = last_month[-1]
 	else:
 		work_week_index = current_week_index
@@ -57,9 +59,9 @@ def day_of_the_year_working(day_tuple, some_day_input):
 		day_of_month, day_of_week = day
 		if day_of_week == some_day_input:
 			day_date = day_of_month
-			month_date = now.month
+			month_date = this_month
 			if day_date == 0:
-				last_month = cal.monthdays2calendar(now.year, now.month-1)
+				last_month = cal.monthdays2calendar(now.year, this_month-1)
 				last_week_last_month = last_month[-1]
 				for last_month_day in last_week_last_month:
 					print(last_month_day)
@@ -67,7 +69,10 @@ def day_of_the_year_working(day_tuple, some_day_input):
 					print("test", day_of_last_month, day_of_last_week)
 					if day_of_week == some_day_input:
 						day_date = day_of_last_month
-						month_date = now.month - 1
+						month_date = this_month - 1
+						if month_date <= 0:
+							month_date = 12 - month_date
+							print("test2", month_date)
 						break
 			break
 	print(day_date, month_date)
