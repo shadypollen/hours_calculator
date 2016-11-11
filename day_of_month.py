@@ -53,7 +53,7 @@ def work_week_index_finder(day_tuple):
 	print(work_week_index, is_it_last_month)
 	return(work_week_index, is_it_last_month)
 
-def find_list_of_last_week(work_week_index, is_it_last_month):
+def find_list_of_last_week(work_week_index, is_it_last_month, day_ordinal_output):
 	if is_it_last_month == True:
 		work_month = this_month - 1
 		if work_month <= 0:
@@ -65,7 +65,16 @@ def find_list_of_last_week(work_week_index, is_it_last_month):
 		work_month = this_month
 		work_year = this_year
 	print(work_month, work_year)
-	return(work_month, work_year)
+	for day in month_list[work_week_index]:
+		day_of_month, day_of_week = day 
+		if day_of_week == day_ordinal_output:
+			if day_of_month == 0:
+				work_month_print_output = work_month 
+				break
+			else:
+				work_month_print_output = work_month + 1
+				break
+	return(work_month, work_year, work_month_print_output)
 	
 def find_day_and_month_of_working(work_month, work_year, day_ordinal_output, is_it_last_month, work_week_index):
 	print("testtest", day_ordinal_output)
@@ -106,9 +115,9 @@ day_text_output, day_ordinal_output = day_list()
 print("test1", day_ordinal_output)
 today_week_output = day_of_the_year_now()
 work_week_index, is_it_last_month = work_week_index_finder(today_week_output)
-work_month, work_year = find_list_of_last_week(work_week_index, is_it_last_month)
+work_month, work_year, work_month_print_output = find_list_of_last_week(work_week_index, is_it_last_month, day_ordinal_output)
 worked_day_of_month = find_day_and_month_of_working(work_month, work_year, day_ordinal_output, is_it_last_month, work_week_index)
-print("worked day of month", worked_day_of_month, "worked month ouput:",work_month)
+print("worked day of month", worked_day_of_month, "worked month ouput:",work_month_print_output)
 """Output worked_day_of_month, worked_month and worked_year"""
 
 #Figure out a way to properly write months
