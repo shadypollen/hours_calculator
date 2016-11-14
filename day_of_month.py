@@ -4,9 +4,9 @@ import calendar
 now = datetime.datetime.now()
 cal = calendar.Calendar()
 this_year = now.year
-this_month = 12#now.month 
+this_month = now.month 
 month_list = cal.monthdays2calendar(now.year, this_month)
-current_day_of_month = 5#now.day
+current_day_of_month = now.day
 
 def day_list():
 	#Returns the day of the week you've worked and it's ordinal number
@@ -46,10 +46,10 @@ def find_day_w_in_last_month(month_list, search_day_w):
 		if day_w == search_day_w:
 			return(day_m)
 
-def work_week_index_finder(current_week_index, current_day_of_week, day_ordinal_output):
+def work_week_index_finder(work_week_index, current_day_of_week, day_ordinal_output):
 	if current_day_of_week == 0:
-		current_week_index -= 1
-	for day in month_list[current_week_index]:
+		work_week_index -= 1
+	for day in month_list[work_week_index]:
 		day_m, day_w = day
 		if day_w == day_ordinal_output:
 			if day_m == 0:
@@ -65,13 +65,3 @@ current_week_index, current_day_of_week = find_week_index_by_day_m(month_list, c
 work_month, work_day_m = work_week_index_finder(current_week_index,
 	 current_day_of_week, day_ordinal_output)
 print("Day worked: %d, month worked: %d" % (work_day_m, work_month))
-"""work_month, work_year, work_month_print_output = find_list_of_last_week(
-	work_week_index, is_it_last_month, day_ordinal_output)
-worked_day_of_month = find_day_and_month_of_working(work_month, 
-	work_year, day_ordinal_output, is_it_last_month, work_week_index)"""
-
-
-	#print("worked day of month", worked_day_of_month, "worked month ouput:",work_month_print_output)
-"""Output worked_day_of_month, worked_month and worked_year"""
-
-#Figure out a way to properly write months
