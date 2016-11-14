@@ -1,7 +1,7 @@
 import sqlite3
 import day_class
 
-conn = sqlite3.connect("workhours.db")
+conn = sqlite3.connect("_workhours.db")
 cursor = conn.cursor()
 
 
@@ -13,16 +13,11 @@ def week_calculator(days_hours_input):
 	for day in days_hours_list:
 		week_hours.append(day)
 	sum_hours = sum(week_hours)
-	print(week_hours)
-	print(sum_hours)
 	hours_worked = int(sum_hours/60)
 	minutes_worked = sum_hours%60
 	output_string = "%.2ih %.2im" % (hours_worked, minutes_worked)
-	print(output_string)
-
 	paid_total_pw = (8.2/60)* sum_hours
 	paid_total_pw = round(paid_total_pw, 2)
-	print(paid_total_pw)
 	return(output_string, paid_total_pw)
 
 

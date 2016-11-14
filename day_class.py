@@ -1,12 +1,14 @@
-import datetime
-import calendar
+import day_of_month
 
 class day_container:
 	def __init__(self):
-		self.day_input = self.day_list()
-		self.day_date, self.month_date, self.year_date = self.day_of_the_year()
+		self.date_worked = day_of_month.date_container()
+		self.day_input = self.date_worked.day_text_output
+		self.day_date = self.date_worked.work_day
+		self.month_date = self.date_worked.work_month 
+		self.year_date = self.date_worked.work_year
+		self.week_number = self.date_worked.which_week()
 		self.date_string = str("%d-%d-%d" % (self.day_date, self.month_date, self.year_date))
-		self.week_number = self.which_week(self.year_date, self.month_date, self.day_date)
 		#inputs for beginning and end of shift
 		self.start_hours, self.start_minutes = self.start_hours_list()
 		self.finish_hours, self.finish_minutes = self.finish_hours_list()
@@ -22,6 +24,16 @@ class day_container:
 
 	#Inputs the day of the week
 	def day_list(self):
+		#Returns the day of the week you've worked and it's ordinal number
+		day_dict = {
+		"mon" : 0,
+		"tue" : 1,
+		"wed" : 2,
+		"thu" : 3,
+		"fri" : 4,
+		"sat" : 5,
+		"sun" : 6
+		}
 		while True:
 			day_var = input("Enter day of the week(Mon, Tue, Wed, Thu, Fri, Sat, Sun): \n")
 			day_check_list = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
@@ -30,21 +42,11 @@ class day_container:
 				print("Input accepted\n")
 				break
 			print("Input incorrect, try again.")
-		return day_var
 
-	#Inputs the day of the month
-	#Work on a better way to calculate the date using last week and today's day, so it 
-	#won't cause bugs on weeks that have a start of the next month in them
-	def day_of_the_year(self):
-		now = datetime.datetime.now()
-		calendar.prmonth(now.year, now.month)
-		day_of_the_month = int(input("Enter the day of the month: "))
-		return(day_of_the_month, now.month, now.year)
+		return (day_var, day_dict[day_var])
 
-	def which_week(self, year, month, day):
-		date_that_week = datetime.date(year, month, day)
-		no_of_week = date_that_week.isocalendar()[1]
-		return no_of_week
+
+
 
 	#Inputs beginning of the shift
 	def start_hours_list(self):
