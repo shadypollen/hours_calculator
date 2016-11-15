@@ -15,3 +15,8 @@ Follow the instructions given on screen and after you have entered all the neces
 
 * **Aleksandr Leokin** - *Initial work* - [shadypollen](https://github.com/shadypollen)
 
+##Future plans
+
+* Add an option for using GUI implemented via tkinter
+
+
