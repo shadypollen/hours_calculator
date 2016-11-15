@@ -3,8 +3,8 @@
 A small CLI app that records the day you've worked, your hours, subtracts unpaid times from break and records data into a SQLite-database.
 
 ##Necessary libraries
-*SQLite
-*Python 3.5 or newer
+* SQLite
+* Python 3.5 or newer
 
 ##Using the app
 
