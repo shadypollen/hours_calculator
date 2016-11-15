@@ -4,6 +4,7 @@ A small CLI app that records the day you've worked, your hours, subtracts unpaid
 
 ##Necessary libraries
 *SQLite
+*Python 3.5 or newer
 
 ##Using the app
 
