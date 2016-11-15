@@ -17,9 +17,6 @@ class date_container:
 	 	self.current_day_of_week, self.day_ordinal_output)
 		print(self.work_day, self.work_month, self.work_year) 
 
-#####Work on a better way to count the year 
-
-
 
 	def day_list(self):
 		#Returns the day of the week you've worked and it's ordinal number
