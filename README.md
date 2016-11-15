@@ -5,9 +5,9 @@ A small CLI app that records the day you've worked, your hours, subtracts unpaid
 ##Using the app
 
 Download the zip of the master branch or clone the repository and run
-'''
+```
 python3 hours_calculator.py
-'''
+```
 
 ##Author
 
