@@ -61,7 +61,6 @@ class date_container:
 	def work_week_index_finder(self, work_week_index, current_day_of_week, day_ordinal_output):
 		if current_day_of_week == 0:
 			work_week_index -= 1
-		print(month_list[work_week_index])
 		for day in month_list[work_week_index]:
 			day_m, day_w = day
 			if day_w == day_ordinal_output:
