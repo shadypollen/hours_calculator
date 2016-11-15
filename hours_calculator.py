@@ -1,7 +1,7 @@
 import sqlite3
 import day_class
 
-conn = sqlite3.connect("_workhours.db")
+conn = sqlite3.connect("workhours.db")
 cursor = conn.cursor()
 
 

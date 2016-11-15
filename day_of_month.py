@@ -4,17 +4,17 @@ import calendar
 now = datetime.datetime.now()
 cal = calendar.Calendar()
 this_year = now.year
-this_month = 12#now.month 
-month_list = cal.monthdays2calendar(now.year, this_month)
-current_day_of_month = 5#now.day
+this_month = now.month 
+current_day_of_month = now.day
+month_list = cal.monthdays2calendar(this_year, this_month)
+
 
 class date_container:
 	def __init__(self):
 		self.day_text_output, self.day_ordinal_output = self.day_list()
 		self.current_week_index, self.current_day_of_week = self.find_week_index_by_day_m(month_list, current_day_of_month)
-		self.work_month, self.work_day = self.work_week_index_finder(self.current_week_index,
+		self.work_month, self.work_day, self.work_year = self.work_week_index_finder(self.current_week_index,
 	 	self.current_day_of_week, self.day_ordinal_output)
-		self.work_year = now.year
 		print(self.work_day, self.work_month, self.work_year) 
 
 #####Work on a better way to count the year 
@@ -54,28 +54,37 @@ class date_container:
 					return(current_week_index, current_day_of_week)
 
 	def find_day_w_in_last_month(self, month_list, search_day_w):
+		#finds the day you've worked in the last month
 		for day in month_list[-1]:
 			day_m, day_w = day 
 			if day_w == search_day_w:
 				return(day_m)
 
+
 	def work_week_index_finder(self, work_week_index, current_day_of_week, day_ordinal_output):
 		if current_day_of_week == 0:
 			work_week_index -= 1
+		print(month_list[work_week_index])
 		for day in month_list[work_week_index]:
 			day_m, day_w = day
 			if day_w == day_ordinal_output:
 				if day_m == 0:
-					last_month_list = cal.monthdays2calendar(now.year, this_month-1)
+					working_year = this_year
+					last_month = this_month-1
+					if last_month < 1:
+						last_month = 12
+						working_year = this_year - 1
+					last_month_list = cal.monthdays2calendar(working_year, last_month)
 					worked_day_m = self.find_day_w_in_last_month(last_month_list, day_ordinal_output)
-					return(this_month-1, worked_day_m)
+					return(last_month, worked_day_m, working_year)
 				elif day_m != 0:
-					return(this_month, day_m)
+					return(this_month, day_m, this_year)
 
 	def which_week(self):
 		date_that_week = datetime.date(self.work_year, self.work_month, self.work_day)
 		no_of_week = date_that_week.isocalendar()[1]
 		return no_of_week
+
 
 
 		
