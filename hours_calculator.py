@@ -1,5 +1,6 @@
 import day_class
 import write_sql_actions
+import hold_sql_actions
 
 def week_calculator(days_hours_input):
 	week_hours = []
@@ -18,11 +19,19 @@ def week_calculator(days_hours_input):
 def var_collector():
 	day_hours_counter = []
 	weekly_hours_counter = []
-	sql_object = write_sql_actions.sqlite_actions()
 	while True:
-		user_input = input("Press ENTER to input a day or type 'End' if you'd like to finish:  \n")
+		print("Press ENTER to input a day.\r")
+		print("Type 'Hold' if you'd like to leave your hours on hold.\r")
+		user_input = input("Type 'End' if you'd like to finish.\n")
 		if user_input.lower() == "end":
 			#These are the vars needed for the weekly table
+"""			sql_object = write_sql_actions.sqlite_actions()
+			sql_hold_object = hold_sql_actions.sqlite_actions()
+			hold_hours = sql_hold_object.fetch_days()
+			for day in hold_hours:
+				day_hours_counter.append(day)
+			
+"""	#####Figure out a way how to integrate weekly_hours_counter
 
 			hours_pw, paid_pw = week_calculator(weekly_hours_counter)
 			sql_object.daily_sql_insert(day_hours_counter)
@@ -31,7 +40,10 @@ def var_collector():
 			break
 
 		elif user_input.lower() == "hold":
-			pass
+			sql_hold_object = hold_sql_actions.sqlite_actions()
+			sql_hold_object.daily_sql_insert(day_hours_counter)
+			sql_hold_object.sql_close()
+			break
 
 		else:
 			#These are the vars needed for the daily table

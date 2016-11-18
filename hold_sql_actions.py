@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("_workhours.db")
+conn = sqlite3.connect("hold_workhours.db")
 cursor = conn.cursor()
 hold_hours = []
 
@@ -25,8 +25,7 @@ class sqlite_actions:
 		cursor.execute("SELECT * FROM day_hours")
 		for row in cursor.fetchall():
 			hold_hours.append(row)
-		print(hold_hours)
-
+		return hold_hours
 
 	def sql_close(self):
 		cursor.close()
