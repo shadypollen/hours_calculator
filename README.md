@@ -22,6 +22,7 @@ Follow the instructions given on screen and after you have entered all the neces
 ##Future plans
 
 * Add an option for using GUI implemented via tkinter
-* Add an option to keep your working hours on "hold" before calculating week total
 
+##Update log
 
+* 21.11.16 - Added a hold function
