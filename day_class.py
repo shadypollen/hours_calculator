@@ -1,5 +1,7 @@
 import day_of_month
 
+PAY_PER_HOUR = 8.2
+
 class day_container:
 	def __init__(self):
 		self.date_worked = day_of_month.date_container()
@@ -114,7 +116,7 @@ class day_container:
 		return return_string
 
 	def estimate_pay(self, paid_total):
-		raw_estimate_val = (8.2/60) * paid_total
+		raw_estimate_val = (PAY_PER_HOUR/60) * paid_total
 		output_string = round(raw_estimate_val, 2)
 		return output_string
 
