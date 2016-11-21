@@ -22,6 +22,7 @@ Follow the instructions given on screen and after you have entered all the neces
 ##Future plans
 
 * Add an option for using GUI implemented via tkinter
+* Make the day of the month finding module more flexible
 
 ##Update log
 
