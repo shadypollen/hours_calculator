@@ -15,7 +15,7 @@ class date_container:
 		self.current_week_index, self.current_day_of_week = self.find_week_index_by_day_m(month_list, current_day_of_month)
 		self.work_month, self.work_day, self.work_year = self.work_week_index_finder(self.current_week_index,
 	 	self.current_day_of_week, self.day_ordinal_output)
-		print(self.work_day, self.work_month, self.work_year) 
+		print("You worked on",self.work_day, self.work_month, self.work_year) 
 
 
 	def day_list(self):

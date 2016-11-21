@@ -5,6 +5,7 @@ import hold_sql_actions
 def week_calculator(days_hours_input):
 	week_hours = []
 	days_hours_list = list(days_hours_input)
+	print("week calc test:", days_hours_input)
 	for day in days_hours_list:
 		week_hours.append(day)
 	sum_hours = sum(week_hours)
@@ -22,26 +23,35 @@ def var_collector():
 	while True:
 		print("Press ENTER to input a day.\r")
 		print("Type 'Hold' if you'd like to leave your hours on hold.\r")
-		user_input = input("Type 'End' if you'd like to finish.\n")
+		user_input = input("Type 'End' if you'd like to write current days into the database.\n")
 		if user_input.lower() == "end":
 			#These are the vars needed for the weekly table
-"""			sql_object = write_sql_actions.sqlite_actions()
+			sql_object = write_sql_actions.sqlite_actions()
 			sql_hold_object = hold_sql_actions.sqlite_actions()
 			hold_hours = sql_hold_object.fetch_days()
+			hold_paid_total = sql_hold_object.fetch_total_hours()
+			hold_week_no = sql_hold_object.fetch_week_no()
+			weekly_hours_counter.append(hold_paid_total)
 			for day in hold_hours:
 				day_hours_counter.append(day)
 			
-"""	#####Figure out a way how to integrate weekly_hours_counter
+	#####Figure out a way how to week_calculator with hold functions
+	#####Tip:Make another table for hold_hours where you keep the paid total values to later extract them
 
 			hours_pw, paid_pw = week_calculator(weekly_hours_counter)
 			sql_object.daily_sql_insert(day_hours_counter)
-			sql_object.weekly_sql_insert(day_var.week_number, hours_pw, paid_pw)
+			if hold_week_no is None:
+				sql_object.weekly_sql_insert(day_var.week_number, hours_pw, paid_pw)
+			else:
+				sql_object.weekly_sql_insert(hold_week_no[0], hours_pw, paid_pw)
 			sql_object.sql_close()
+			sql_hold_object.sql_delete_and_close()
 			break
 
 		elif user_input.lower() == "hold":
 			sql_hold_object = hold_sql_actions.sqlite_actions()
 			sql_hold_object.daily_sql_insert(day_hours_counter)
+			sql_hold_object.paid_total_insert(weekly_hours_counter, day_var.week_number)
 			sql_hold_object.sql_close()
 			break
 
