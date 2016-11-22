@@ -1,4 +1,4 @@
-import day_of_month
+import hc_modules.day_of_month as day_of_month
 
 PAY_PER_HOUR = 8.2
 
