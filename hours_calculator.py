@@ -5,7 +5,6 @@ import hold_sql_actions
 def week_calculator(days_hours_input):
 	week_hours = []
 	days_hours_list = list(days_hours_input)
-	print("week calc test:", days_hours_input)
 	for day in days_hours_list:
 		week_hours.append(day)
 	sum_hours = sum(week_hours)
