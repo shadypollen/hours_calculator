@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("_workhours.db")
+conn = sqlite3.connect("workhours.db")
 cursor = conn.cursor()
 
 class sqlite_actions:
