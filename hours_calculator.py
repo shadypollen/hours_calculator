@@ -1,6 +1,6 @@
-import day_class
-import write_sql_actions
-import hold_sql_actions
+import hc_modules.day_class as day_class
+import hc_modules.write_sql_actions as write_sql_actions
+import hc_modules.hold_sql_actions as hold_sql_actions
 
 def week_calculator(days_hours_input):
 	week_hours = []
