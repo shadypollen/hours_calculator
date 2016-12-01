@@ -1,9 +1,8 @@
 import hc_modules.day_of_month as day_of_month
 
-PAY_PER_HOUR = 8.2
 
 class day_container:
-	def __init__(self):
+	def __init__(self, pay_per_hour):
 		self.date_worked = day_of_month.date_container()
 		self.day_input = self.date_worked.day_text_output
 		self.day_date = self.date_worked.work_day
@@ -22,7 +21,7 @@ class day_container:
 		self.hours_output_string = self.hour_string_output(self.paid_hours, self.paid_minutes)
 		self.paid_total = self.paid_hours * 60 + self.paid_minutes
 		#estimates the pay
-		self.estimated_pay = self.estimate_pay(self.paid_total)
+		self.estimated_pay = self.estimate_pay(self.paid_total, pay_per_hour)
 
 	#Inputs the day of the week
 	def day_list(self):
@@ -115,8 +114,8 @@ class day_container:
 		return_string = "%ih:%im" % (paid_hours, paid_minutes)
 		return return_string
 
-	def estimate_pay(self, paid_total):
-		raw_estimate_val = (PAY_PER_HOUR/60) * paid_total
+	def estimate_pay(self, paid_total, pay_per_hour):
+		raw_estimate_val = (pay_per_hour/60) * paid_total
 		output_string = round(raw_estimate_val, 2)
 		return output_string
 

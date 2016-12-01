@@ -4,8 +4,8 @@ import calendar
 now = datetime.datetime.now()
 cal = calendar.Calendar()
 this_year = now.year
-this_month = now.month 
-current_day_of_month = now.day
+this_month = 11#now.month 
+current_day_of_month = 28#now.day
 month_list = cal.monthdays2calendar(this_year, this_month)
 
 

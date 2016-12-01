@@ -1,6 +1,7 @@
 import hc_modules.day_class as day_class
 import hc_modules.write_sql_actions as write_sql_actions
 import hc_modules.hold_sql_actions as hold_sql_actions
+from hc_config import hc_user_config
 
 def week_calculator(days_hours_input):
 	week_hours = []
@@ -11,7 +12,7 @@ def week_calculator(days_hours_input):
 	hours_worked = int(sum_hours/60)
 	minutes_worked = sum_hours%60
 	output_string = "%.2ih %.2im" % (hours_worked, minutes_worked)
-	paid_total_pw = (8.2/60)* sum_hours
+	paid_total_pw = (hc_user_config["pay_per_hour"]/60)* sum_hours
 	paid_total_pw = round(paid_total_pw, 2)
 	return(output_string, paid_total_pw)
 
@@ -33,9 +34,6 @@ def var_collector():
 			weekly_hours_counter.append(hold_paid_total)
 			for day in hold_hours:
 				day_hours_counter.append(day)
-			
-	#####Figure out a way how to week_calculator with hold functions
-	#####Tip:Make another table for hold_hours where you keep the paid total values to later extract them
 
 			hours_pw, paid_pw = week_calculator(weekly_hours_counter)
 			sql_object.daily_sql_insert(day_hours_counter)
@@ -56,7 +54,7 @@ def var_collector():
 
 		else:
 			#These are the vars needed for the daily table
-			day_var = day_class.day_container()
+			day_var = day_class.day_container(hc_user_config["pay_per_hour"])
 			#appends all the values for each day as a tuple in a list
 			day_hours_counter.append((day_var.week_number, day_var.day_input, day_var.date_string, 
 				day_var.start_fin_hours_return, day_var.hours_output_string, day_var.estimated_pay))
