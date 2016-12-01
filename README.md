@@ -13,17 +13,18 @@ Download the zip of the master branch or clone the repository and run
 python3 hours_calculator.py
 ```
 
-Follow the instructions given on screen and after you have entered all the necessary data the program will create 2 tables. One is for a day-by-day view of how much you've worked per week and the second one is a weekly overview.
+##Features
+
+* Automatically calculates last week's day, month and year based on the day of the week you input(Mon-Sun)
+* Able to hold hours before inputting them into the main DB via the hold command
+* Stores days worked in two tables - one for a weekly overview and another for a day-by-day view of days worked in a week
+
+##Future plans
+
+* Improve configurability
+* Make the day of the month finding module more flexible
+* Add an option for using GUI implemented via tkinter
 
 ##Author
 
 * **Aleksandr Leokin** - *Initial work* - [shadypollen](https://github.com/shadypollen)
-
-##Future plans
-
-* Add an option for using GUI implemented via tkinter
-* Make the day of the month finding module more flexible
-
-##Update log
-
-* 21.11.16 - Added a hold function
