@@ -22,6 +22,7 @@ python3 hours_calculator.py
 ##Future plans
 
 * Improve configurability
+* Add an option to display hours on hold
 * Add an option for using GUI implemented via tkinter
 
 ##Author
