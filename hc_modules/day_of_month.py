@@ -4,8 +4,8 @@ import calendar
 now = datetime.datetime.now()
 cal = calendar.Calendar()
 this_year = now.year
-this_month = 11#now.month 
-current_day_of_month = 28#now.day
+this_month = now.month 
+current_day_of_month = now.day
 month_list = cal.monthdays2calendar(this_year, this_month)
 
 
@@ -59,8 +59,10 @@ class date_container:
 
 
 	def work_week_index_finder(self, work_week_index, current_day_of_week, day_ordinal_output):
-		if current_day_of_week == 0:
+		#works for middle-of-the-month calculations but not for beginning-month calcs
+		if current_day_of_week <= day_ordinal_output:
 			work_week_index -= 1
+			print("test test")
 		for day in month_list[work_week_index]:
 			day_m, day_w = day
 			if day_w == day_ordinal_output:
