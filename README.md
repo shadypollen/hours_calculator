@@ -15,14 +15,13 @@ python3 hours_calculator.py
 
 ##Features
 
-* Automatically calculates last week's day, month and year based on the day of the week you input(Mon-Sun)
+* Automatically calculates last week's day, month and year based on the day of the week you input(Mon-Sun). For example, if you input Friday and today is Tuesday, it will automatically find last Friday's date.
 * Able to hold hours before inputting them into the main DB via the hold command
 * Stores days worked in two tables - one for a weekly overview and another for a day-by-day view of days worked in a week
 
 ##Future plans
 
 * Improve configurability
-* Make the day of the month finding module more flexible
 * Add an option for using GUI implemented via tkinter
 
 ##Author
