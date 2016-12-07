@@ -23,7 +23,8 @@ python3 hours_calculator.py
 
 * Improve configurability
 * Add an option to display hours on hold
-* Add an option for using GUI implemented via tkinter
+* Create a fork with GUI implemented via tkinter
+* Port the program as a web app using Flask
 
 ##Author
 
